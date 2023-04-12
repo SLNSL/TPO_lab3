@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.JavascriptExecutor;
@@ -17,7 +18,7 @@ public class Avia {
     JavascriptExecutor js;
     @Before
     public void setUp() {
-        driver = new ChromeDriver();
+        driver = new FirefoxDriver();
         js = (JavascriptExecutor) driver;
         driver.manage().window().maximize();
         vars = new HashMap<String, Object>();
@@ -42,8 +43,8 @@ public class Avia {
     public void test() {
         driver.get("https://www.tinkoff.ru/travel/");
         String fromXPath = "/html/body/div[1]/div/div/div[5]/div/div/form/div[1]/div[3]/div/div[2]/div/div[2]/div[1]/div/div[1]/table/tbody/tr[5]/td[1]";
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(4));
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[1]/div/div/div[5]/div/div/form/div[1]/div[2]/div/div/div/div/div/div[1]/div[2]/div/div[2]/div/input"))).sendKeys("Москва");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".travelsearchform__cNaJW7 > div:nth-child(2) > div:nth-child(1) > input:nth-child(2)"))).sendKeys("Москва");
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[1]/div/div/div[5]/div/div/form/div[1]/div[3]/div/div/div[2]/div/div/div/div/div[2]/div[2]"))).click();
 
 
@@ -59,7 +60,7 @@ public class Avia {
         driver.findElement(By.xpath("/html/body/div[1]/div/div/div[3]/div[2]/div[3]/div/div/div[2]/div/div[2]/div[1]/div/div/div")).click();
         driver.findElement(By.xpath("/html/body/div[4]/div[3]/div/div[2]/div/div/div/div[2]/div/div/div/div[2]/div/div[3]/button/span")).click();
 
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[1]/div/div/div[3]/div/div[3]/div/div[1]/div/div[2]/div/div[1]/div[1]/div[1]/div/div[1]/div[2]")));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("/html/body/div[1]/div/div/div[3]/div/div[3]/div/div[1]/div/div[2]/div/div[1]/div[1]")));
         assertEquals("Санкт-Петербург — Москва", js.executeScript("return document.evaluate(\"/html/body/div[1]/div/div/div[3]/div/div[3]/div/div[1]/div/div[2]/div/div[1]/div[1]/div[1]/div/div[1]/div[2]\", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.innerHTML").toString());
         assertEquals("24 апреля", js.executeScript("return document.evaluate(\"/html/body/div[1]/div/div/div[3]/div/div[3]/div/div[1]/div/div[2]/div/div[1]/div[1]/div[2]/div/div/div/div/div[3]/div[1]/div/div[2]/div\", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.innerHTML").toString());
 
