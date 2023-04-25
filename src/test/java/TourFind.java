@@ -13,7 +13,7 @@ public class TourFind {
   JavascriptExecutor js;
   @Before
   public void setUp() {
-    driver = new FirefoxDriver();
+    driver = new ChromeDriver();
     js = (JavascriptExecutor) driver;
     vars = new HashMap<String, Object>();
     driver.manage().window().maximize();
