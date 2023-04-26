@@ -30,12 +30,25 @@ public class LowPrice {
     private WebDriver driver;
     private Map<String, Object> vars;
     JavascriptExecutor js;
-    @Before
-    public void setUp() {
+    @After
+    public void tearDown() {
+        driver.quit();
+    }
+
+    @Test
+    public void testChrome(){
         driver = new ChromeDriver();
-        driver.manage().window().maximize();
         js = (JavascriptExecutor) driver;
         vars = new HashMap<String, Object>();
+        test();
+    }
+
+    @Test
+    public void testFirefox(){
+        driver = new FirefoxDriver();
+        js = (JavascriptExecutor) driver;
+        vars = new HashMap<String, Object>();
+        test();
     }
 
     public String waitForWindow(int timeout) {
@@ -51,8 +64,7 @@ public class LowPrice {
         }
         return whNow.iterator().next();
     }
-    @Test
-    public void test() {
+    private void test() {
         driver.get("https://www.tinkoff.ru/travel/tours/?internal_source=navPanelFromMainPageToToursMain");
         driver.switchTo().frame(0);
         {
@@ -83,7 +95,5 @@ public class LowPrice {
         vars.put("price", js.executeScript("return document.evaluate(\"//div[@id=\'hotelTemplate\']/div/div/div[2]/div[2]/a/span[2]/span\", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.textContent.split(\' \').toString()"));
         System.out.println(vars.get("price").toString());
         assertEquals(vars.get("price").toString(), vars.get("min_price").toString());
-
-
     }
 }

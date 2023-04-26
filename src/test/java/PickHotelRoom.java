@@ -17,16 +17,28 @@ public class PickHotelRoom {
   private WebDriver driver;
   private Map<String, Object> vars;
   JavascriptExecutor js;
-  @Before
-  public void setUp() {
-    driver = new ChromeDriver();
-    js = (JavascriptExecutor) driver;
-    driver.manage().window().maximize();
-    vars = new HashMap<String, Object>();
+  @After
+  public void tearDown() {
+    driver.quit();
   }
 
   @Test
-  public void test() {
+  public void testChrome(){
+    driver = new ChromeDriver();
+    js = (JavascriptExecutor) driver;
+    vars = new HashMap<String, Object>();
+    test();
+  }
+
+  @Test
+  public void testFirefox(){
+    driver = new FirefoxDriver();
+    js = (JavascriptExecutor) driver;
+    vars = new HashMap<String, Object>();
+    test();
+  }
+
+  private void test() {
     // Test name: Выбор номера
     // Step # | name | target | value | comment
     // 1 | open | https://tinkoff.travelata.ru/hotel/284322#?fromCity=1&dateFrom=09.05.2023&dateTo=09.05.2023&nightFrom=2&nightTo=7&adults=1&priceFrom=6000&priceTo=50000000&meal=all&activeTab=tours&sid=soe88ysxj5&hsid=04kn5kd9cu |  | 

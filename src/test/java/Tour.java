@@ -16,16 +16,32 @@ public class Tour {
   private WebDriver driver;
   private Map<String, Object> vars;
   JavascriptExecutor js;
-  @Before
-  public void setUp() {
+
+  @After
+  public void tearDown() {
+    driver.quit();
+  }
+
+  @Test
+  public void testChrome(){
+    driver = new ChromeDriver();
+    driver.manage().window().maximize();
+    js = (JavascriptExecutor) driver;
+    vars = new HashMap<String, Object>();
+    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+    test();
+  }
+
+  @Test
+  public void testFirefox(){
     driver = new FirefoxDriver();
     driver.manage().window().maximize();
     js = (JavascriptExecutor) driver;
     vars = new HashMap<String, Object>();
     driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+    test();
   }
-
-
+  
   public String waitForWindow(int timeout) {
     try {
       Thread.sleep(timeout);
@@ -40,8 +56,7 @@ public class Tour {
     return whNow.iterator().next();
   }
 
-  @Test
-  public void test() {
+  private void test() {
     // Test name: Выбор тура
     // Step # | name | target | value | comment
     // 1 | open | https://tinkoff.travelata.ru/search#?fromCity=1&toCountry=92&toCity=2162&dateFrom=09.05.2023&dateTo=09.05.2023&nightFrom=2&nightTo=7&adults=1&hotelClass=all&meal=all&priceFrom=6000&priceTo=50000000&sid=soe88ysxj5&sort=recommend |  | 

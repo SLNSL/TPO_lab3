@@ -28,16 +28,28 @@ public class PopularAvia {
     private WebDriver driver;
     private Map<String, Object> vars;
     JavascriptExecutor js;
-    @Before
-    public void setUp() {
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        js = (JavascriptExecutor) driver;
-        vars = new HashMap<String, Object>();
+    @After
+    public void tearDown() {
+        driver.quit();
     }
 
     @Test
-    public void test() {
+    public void testChrome(){
+        driver = new ChromeDriver();
+        js = (JavascriptExecutor) driver;
+        vars = new HashMap<String, Object>();
+        test();
+    }
+
+    @Test
+    public void testFirefox(){
+        driver = new FirefoxDriver();
+        js = (JavascriptExecutor) driver;
+        vars = new HashMap<String, Object>();
+        test();
+    }
+
+    private void test() {
         driver.get("https://www.tinkoff.ru/travel/flights/");
         vars.put("from", js.executeScript("return document.evaluate(\"//div[12]/div/div/div/div/div/div/a/span\", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.textContent.split(\'—\')[0]"));
         vars.put("to", js.executeScript("return document.evaluate(\"//div[12]/div/div/div/div/div/div/a/span\", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.textContent.split(\'—\')[1]"));

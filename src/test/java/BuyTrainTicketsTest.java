@@ -1,9 +1,9 @@
 import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -16,27 +16,31 @@ public class BuyTrainTicketsTest {
     private Map<String, Object> vars;
     JavascriptExecutor js;
     private WebDriverWait wait;
-    
-    @Before
-    public void setUp() {
-        driver = new ChromeDriver();
-        js = (JavascriptExecutor) driver;
-        driver.manage().window().maximize();
-        vars = new HashMap<String, Object>();
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-    }
 
     @After
     public void tearDown() {
-        try {
-            driver.quit();
-        }catch (Exception e){
-            // do nothing
-        }
+        driver.quit();
     }
 
     @Test
-    public void test() {
+    public void testChrome(){
+        driver = new ChromeDriver();
+        js = (JavascriptExecutor) driver;
+        vars = new HashMap<String, Object>();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        test();
+    }
+
+    @Test
+    public void testFirefox(){
+        driver = new FirefoxDriver();
+        js = (JavascriptExecutor) driver;
+        vars = new HashMap<String, Object>();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        test();
+    }
+
+    private void test() {
         driver.get("https://www.tinkoff.ru/travel/trains/");
         driver.manage().window().setSize(new Dimension(1552, 840));
         driver.switchTo().frame(0);

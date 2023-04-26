@@ -11,12 +11,28 @@ public class TourFind {
   private WebDriver driver;
   private Map<String, Object> vars;
   JavascriptExecutor js;
-  @Before
-  public void setUp() {
+
+  @After
+  public void tearDown() {
+    driver.quit();
+  }
+
+  @Test
+  public void testChrome(){
     driver = new ChromeDriver();
     js = (JavascriptExecutor) driver;
     vars = new HashMap<String, Object>();
     driver.manage().window().maximize();
+    test();
+  }
+
+  @Test
+  public void testFirefox(){
+    driver = new FirefoxDriver();
+    js = (JavascriptExecutor) driver;
+    vars = new HashMap<String, Object>();
+    driver.manage().window().maximize();
+    test();
   }
   public String waitForWindow(int timeout) {
     try {
@@ -31,8 +47,7 @@ public class TourFind {
     }
     return whNow.iterator().next();
   }
-  @Test
-  public void test() {
+  private void test() {
     // Test name: Поиск Туров
     // Step # | name | target | value | comment
     // 1 | open | https://www.tinkoff.ru/travel/ |  | 

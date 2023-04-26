@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -19,16 +20,27 @@ public class PopularAviaCompaniesTest {
     private Map<String, Object> vars;
     private WebDriverWait wait;
     JavascriptExecutor js;
-    @Before
-    public void setUp() {
+    @After
+    public void tearDown() {
+        driver.quit();
+    }
+
+    @Test
+    public void testChrome(){
         driver = new ChromeDriver();
         js = (JavascriptExecutor) driver;
         vars = new HashMap<String, Object>();
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        testPopularAviaCompanies();
     }
-    @After
-    public void tearDown() {
-        driver.quit();
+
+    @Test
+    public void testFirefox(){
+        driver = new FirefoxDriver();
+        js = (JavascriptExecutor) driver;
+        vars = new HashMap<String, Object>();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        testPopularAviaCompanies();
     }
     public String waitForWindow(int timeout) {
         try {
@@ -43,8 +55,7 @@ public class PopularAviaCompaniesTest {
         }
         return whNow.iterator().next();
     }
-    @Test
-    public void testPopularAviaCompanies() {
+    private void testPopularAviaCompanies() {
         driver.get("https://www.tinkoff.ru/travel/flights");
         driver.manage().window().setSize(new Dimension(1552, 840));
         wait.until(ExpectedConditions.presenceOfElementLocated(
